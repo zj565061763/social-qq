@@ -63,32 +63,31 @@ object FSocialQQLoginApi {
     }
 
     private fun processResponse(response: Any?) {
-        val callback = _loginCallback
         if (response !is JSONObject) {
-            callback?.onError(-1, "empty result")
+            notifyError(-1, "empty result")
             return
         }
 
         if (response.length() <= 0) {
-            callback?.onError(-1, "empty result")
+            notifyError(-1, "empty result")
             return
         }
 
         val openId = response.optString(Constants.PARAM_OPEN_ID)
         if (openId.isEmpty()) {
-            callback?.onError(-1, "empty PARAM_OPEN_ID")
+            notifyError(-1, "empty PARAM_OPEN_ID")
             return
         }
 
         val token = response.optString(Constants.PARAM_ACCESS_TOKEN)
         if (token.isEmpty()) {
-            callback?.onError(-1, "empty PARAM_ACCESS_TOKEN")
+            notifyError(-1, "empty PARAM_ACCESS_TOKEN")
             return
         }
 
         val expires = response.optString(Constants.PARAM_EXPIRES_IN)
         if (expires.isEmpty()) {
-            callback?.onError(-1, "empty PARAM_EXPIRES_IN")
+            notifyError(-1, "empty PARAM_EXPIRES_IN")
             return
         }
 
@@ -98,29 +97,40 @@ object FSocialQQLoginApi {
         }
 
         val loginResult = QQLoginResult(openId = openId, accessToken = token)
-        callback?.onSuccess(loginResult)
+        notifySuccess(loginResult)
     }
 
     private val _listener = object : IUiListener {
         override fun onComplete(response: Any?) {
             processResponse(response)
-            resetState()
         }
 
         override fun onError(error: UiError?) {
-            _loginCallback?.onError(error?.errorCode ?: -1, error?.errorMessage ?: "")
-            resetState()
+            notifyError(error?.errorCode ?: -1, error?.errorMessage ?: "")
         }
 
         override fun onCancel() {
-            _loginCallback?.onCancel()
-            resetState()
+            notifyCancel()
         }
 
-        override fun onWarning(p0: Int) {
-            _loginCallback?.onError(p0, "warning")
-            resetState()
+        override fun onWarning(code: Int) {
+            notifyError(code, "warning")
         }
+    }
+
+    private fun notifySuccess(result: QQLoginResult) {
+        _loginCallback?.onSuccess(result)
+        resetState()
+    }
+
+    private fun notifyError(code: Int, message: String) {
+        _loginCallback?.onError(code, message)
+        resetState()
+    }
+
+    private fun notifyCancel() {
+        _loginCallback?.onCancel()
+        resetState()
     }
 
     private fun resetState() {
