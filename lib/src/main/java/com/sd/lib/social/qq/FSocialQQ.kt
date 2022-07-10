@@ -7,6 +7,7 @@ import com.tencent.tauth.Tencent
 object FSocialQQ {
     private var _context: Application? = null
     private var _appId = ""
+    private var _tencent: Tencent? = null
 
     internal val context: Context
         get() = checkNotNull(_context) { "You should init before this" }
@@ -14,18 +15,23 @@ object FSocialQQ {
     private val appId: String
         get() = _appId.also { check(it.isNotEmpty()) { "You should init before this" } }
 
-    val _tencent by lazy {
-        Tencent.setIsPermissionGranted(true)
-        Tencent.createInstance(appId, context, SocialQQFileProvider.getAuthority(context))
-    }
-
     @JvmStatic
     val tencent: Tencent
         get() {
-            if (!_tencent.isQQInstalled(context)) {
-                Tencent.resetTargetAppInfoCache()
+            val api = _tencent
+                ?: Tencent.createInstance(
+                    appId,
+                    context,
+                    SocialQQFileProvider.getAuthority(context)
+                ).also {
+                    _tencent = it
+                }
+            return api.also {
+                if (!it.isQQInstalled(context)) {
+                    Tencent.resetTargetAppInfoCache()
+                }
+                Tencent.setIsPermissionGranted(true)
             }
-            return _tencent
         }
 
     @JvmStatic
