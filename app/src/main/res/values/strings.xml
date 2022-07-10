@@ -1,5 +1,7 @@
 <!DOCTYPE resources [<!ENTITY test "test">]>
 <resources>
     <string name="app_name">social-qq</string>
+
+    <string name="lib_social_qq_app_id">101830139</string>
     <string name="lib_social_qq_app_id_scheme">tencent101830139</string>
 </resources>
