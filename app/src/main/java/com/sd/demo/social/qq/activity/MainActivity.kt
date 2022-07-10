@@ -41,11 +41,11 @@ class MainActivity : AppCompatActivity() {
             Log.i(TAG, "click share")
             FSocialQQShareApi.shareUrl(
                 this@MainActivity,
-                title = "我是标题",
                 targetUrl = "http://www.baidu.com",
-                summary = "我是描述",
+                title = "我是标题",
+                description = "我是描述",
                 imageUrl = "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
-                object : FSocialQQShareApi.ShareCallback {
+                callback = object : FSocialQQShareApi.ShareCallback {
                     override fun onSuccess(result: QQShareResult) {
                         Log.i(TAG, "share onSuccess $result")
                     }

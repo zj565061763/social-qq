@@ -26,12 +26,12 @@ object FSocialQQShareApi {
     @JvmOverloads
     fun shareUrl(
         activity: Activity,
+        /** 跳转链接 */
+        targetUrl: String,
         /** 标题 */
         title: String,
-        /** 分享的跳转链接 */
-        targetUrl: String,
-        /** 摘要 */
-        summary: String = "",
+        /** 描述 */
+        description: String = "",
         /** 图片url，可以是在线url或者本地路径 */
         imageUrl: String = "",
         /** 回调 */
@@ -43,8 +43,8 @@ object FSocialQQShareApi {
                 putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT)
                 putString(QQShare.SHARE_TO_QQ_TITLE, title)
                 putString(QQShare.SHARE_TO_QQ_TARGET_URL, targetUrl);
-                if (summary.isNotEmpty()) {
-                    putString(QQShare.SHARE_TO_QQ_SUMMARY, summary)
+                if (description.isNotEmpty()) {
+                    putString(QQShare.SHARE_TO_QQ_SUMMARY, description)
                 }
                 if (imageUrl.isNotEmpty()) {
                     putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl)
