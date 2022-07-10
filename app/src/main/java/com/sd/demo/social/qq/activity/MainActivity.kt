@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.i(TAG, "onActivityResult requestCode:$requestCode resultCode:$resultCode")
         FSocialQQLoginApi.onActivityResult(requestCode, resultCode, data)
         FSocialQQShareApi.onActivityResult(requestCode, resultCode, data)
     }
