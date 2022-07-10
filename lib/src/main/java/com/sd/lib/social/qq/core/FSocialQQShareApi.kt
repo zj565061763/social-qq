@@ -32,7 +32,7 @@ object FSocialQQShareApi {
         title: String,
         /** 描述 */
         description: String = "",
-        /** 图片url，可以是在线url或者本地路径 */
+        /** 图片url，在线url或者本地路径 */
         imageUrl: String = "",
         /** 回调 */
         callback: ShareCallback,
