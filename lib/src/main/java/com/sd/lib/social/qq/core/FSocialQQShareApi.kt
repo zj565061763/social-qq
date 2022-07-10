@@ -66,11 +66,6 @@ object FSocialQQShareApi {
         }
     }
 
-    private fun resetState() {
-        _shareCallback = null
-        _isShare.set(false)
-    }
-
     private fun processResponse(response: Any?) {
         _shareCallback?.onSuccess(QQShareResult())
     }
@@ -95,6 +90,11 @@ object FSocialQQShareApi {
             _shareCallback?.onError(p0, "warning")
             resetState()
         }
+    }
+
+    private fun resetState() {
+        _shareCallback = null
+        _isShare.set(false)
     }
 
     interface ShareCallback {
