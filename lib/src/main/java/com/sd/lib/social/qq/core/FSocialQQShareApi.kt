@@ -26,9 +26,9 @@ object FSocialQQShareApi {
     @JvmOverloads
     fun shareUrl(
         activity: Activity,
-        /** 跳转链接 */
+        /** 跳转链接（必填） */
         targetUrl: String,
-        /** 标题 */
+        /** 标题（必填，最长30个字符） */
         title: String,
         /** 描述 */
         description: String = "",
