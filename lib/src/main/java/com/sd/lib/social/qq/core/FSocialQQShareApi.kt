@@ -66,30 +66,37 @@ object FSocialQQShareApi {
         }
     }
 
-    private fun processResponse(response: Any?) {
-        _shareCallback?.onSuccess(QQShareResult())
-    }
-
     private val _listener = object : IUiListener {
         override fun onComplete(response: Any?) {
-            processResponse(response)
-            resetState()
+            notifySuccess(QQShareResult())
         }
 
         override fun onError(error: UiError?) {
-            _shareCallback?.onError(error?.errorCode ?: -1, error?.errorMessage ?: "")
-            resetState()
+            notifyError(error?.errorCode ?: -1, error?.errorMessage ?: "")
         }
 
         override fun onCancel() {
-            _shareCallback?.onCancel()
-            resetState()
+            notifyCancel()
         }
 
-        override fun onWarning(p0: Int) {
-            _shareCallback?.onError(p0, "warning")
-            resetState()
+        override fun onWarning(code: Int) {
+            notifyError(code, "warning")
         }
+    }
+
+    private fun notifySuccess(result: QQShareResult) {
+        _shareCallback?.onSuccess(result)
+        resetState()
+    }
+
+    private fun notifyError(code: Int, message: String) {
+        _shareCallback?.onError(code, message)
+        resetState()
+    }
+
+    private fun notifyCancel() {
+        _shareCallback?.onCancel()
+        resetState()
     }
 
     private fun resetState() {
