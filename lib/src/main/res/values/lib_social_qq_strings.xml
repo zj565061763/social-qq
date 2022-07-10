@@ -1,8 +1,5 @@
 <resources>
 
-    <!-- appid -->
-    <string name="lib_social_qq_app_id"></string>
-
     <!-- tencent+appid，例如：tencent222222 -->
     <string name="lib_social_qq_app_id_scheme"></string>
 

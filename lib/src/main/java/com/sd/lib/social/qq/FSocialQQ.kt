@@ -5,40 +5,33 @@ import android.content.Context
 import com.tencent.tauth.Tencent
 
 object FSocialQQ {
-    private lateinit var _context: Application
-    private lateinit var _appId: String
+    private var _context: Application? = null
+    private var _appId = ""
+
+    internal val context: Context
+        get() = checkNotNull(_context) { "You should init before this" }
+
+    private val appId: String
+        get() = _appId.also { check(it.isNotEmpty()) { "You should init before this" } }
 
     val _tencent by lazy {
         Tencent.setIsPermissionGranted(true)
-        createTencent()
+        Tencent.createInstance(appId, context, SocialQQFileProvider.getAuthority(context))
     }
 
     @JvmStatic
     val tencent: Tencent
         get() {
-            if (!_tencent.isQQInstalled(_context)) {
+            if (!_tencent.isQQInstalled(context)) {
                 Tencent.resetTargetAppInfoCache()
             }
             return _tencent
         }
 
-    internal val context: Context
-        get() = _context
-
     @JvmStatic
-    fun init(context: Context) {
-        initInternal(context)
-    }
-
-    private fun createTencent(): Tencent {
-        return Tencent.createInstance(_appId, _context, SocialQQFileProvider.getAuthority(_context))
-    }
-
-    private fun initInternal(context: Context) {
+    fun init(context: Context, appId: String) {
+        check(appId.isNotEmpty()) { "appId is empty" }
         _context = context.applicationContext as Application
-
-        val appId = context.getString(R.string.lib_social_qq_app_id)
-        check(appId.isNotEmpty()) { "R.string.lib_social_qq_app_id is empty" }
         _appId = appId
 
         val appIdScheme = context.getString(R.string.lib_social_qq_app_id_scheme)
