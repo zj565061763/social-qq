@@ -62,11 +62,6 @@ object FSocialQQLoginApi {
         }
     }
 
-    private fun resetState() {
-        _loginCallback = null
-        _isLogin.set(false)
-    }
-
     private fun processResponse(response: Any?) {
         val callback = _loginCallback
         if (response !is JSONObject) {
@@ -126,6 +121,11 @@ object FSocialQQLoginApi {
             _loginCallback?.onError(p0, "warning")
             resetState()
         }
+    }
+
+    private fun resetState() {
+        _loginCallback = null
+        _isLogin.set(false)
     }
 
     interface LoginCallback {
