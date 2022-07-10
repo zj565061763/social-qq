@@ -22,6 +22,9 @@ object FSocialQQ {
         )
     }
 
+    /**
+     * SDK对象
+     */
     @JvmStatic
     val tencent: Tencent
         get() = _tencent.also {
@@ -31,6 +34,9 @@ object FSocialQQ {
             Tencent.setIsPermissionGranted(true)
         }
 
+    /**
+     * 初始化
+     */
     @JvmStatic
     fun init(context: Context) {
         synchronized(this@FSocialQQ) {
@@ -46,5 +52,12 @@ object FSocialQQ {
                 "R.string.lib_social_qq_app_id_scheme should be tencent${appId}"
             }
         }
+    }
+
+    /**
+     * QQ是否已安装
+     */
+    fun isQQInstalled(): Boolean {
+        return _tencent.isQQInstalled(context)
     }
 }
