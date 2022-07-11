@@ -10,13 +10,11 @@ import com.tencent.connect.share.QQShare
 import com.tencent.tauth.IUiListener
 import com.tencent.tauth.Tencent
 import com.tencent.tauth.UiError
-import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * 分享
  */
 object FSocialQQShareApi {
-    private val _isShare = AtomicBoolean(false)
     private var _shareCallback: ShareCallback? = null
 
     /**
@@ -37,22 +35,20 @@ object FSocialQQShareApi {
         /** 回调 */
         callback: ShareCallback,
     ) {
-        if (_isShare.compareAndSet(false, true)) {
-            _shareCallback = callback
-            val params = Bundle().apply {
-                putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT)
-                putString(QQShare.SHARE_TO_QQ_TITLE, title)
-                putString(QQShare.SHARE_TO_QQ_TARGET_URL, targetUrl);
-                if (description.isNotEmpty()) {
-                    putString(QQShare.SHARE_TO_QQ_SUMMARY, description)
-                }
-                if (imageUrl.isNotEmpty()) {
-                    putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl)
-                }
+        _shareCallback = callback
+        val params = Bundle().apply {
+            putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT)
+            putString(QQShare.SHARE_TO_QQ_TITLE, title)
+            putString(QQShare.SHARE_TO_QQ_TARGET_URL, targetUrl);
+            if (description.isNotEmpty()) {
+                putString(QQShare.SHARE_TO_QQ_SUMMARY, description)
             }
-            with(FSocialQQ) {
-                tencent.shareToQQ(activity, params, _listener)
+            if (imageUrl.isNotEmpty()) {
+                putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl)
             }
+        }
+        with(FSocialQQ) {
+            tencent.shareToQQ(activity, params, _listener)
         }
     }
 
@@ -101,7 +97,6 @@ object FSocialQQShareApi {
 
     private fun resetState() {
         _shareCallback = null
-        _isShare.set(false)
     }
 
     interface ShareCallback {
