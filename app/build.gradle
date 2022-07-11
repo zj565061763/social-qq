@@ -51,6 +51,7 @@ android {
     productFlavors {
         demo {
             applicationId "com.umeng.soexample"
+            manifestPlaceholders = ["lib_social_qq_app_id": "101830139"]
         }
     }
 }

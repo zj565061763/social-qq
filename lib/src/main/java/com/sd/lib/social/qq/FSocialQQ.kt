@@ -38,19 +38,13 @@ object FSocialQQ {
      * 初始化
      */
     @JvmStatic
-    fun init(context: Context) {
+    fun init(context: Context, appId: String) {
         synchronized(this@FSocialQQ) {
             if (_context != null) return
             _context = context.applicationContext as Application
 
-            val appId = context.getString(R.string.lib_social_qq_app_id)
-            check(appId.isNotEmpty()) { "R.string.lib_social_qq_app_id is empty" }
+            require(appId.isNotEmpty()) { "appId is empty" }
             _appId = appId
-
-            val appIdScheme = context.getString(R.string.lib_social_qq_app_id_scheme)
-            check(appIdScheme == "tencent${appId}") {
-                "R.string.lib_social_qq_app_id_scheme should be tencent${appId}"
-            }
         }
     }
 
