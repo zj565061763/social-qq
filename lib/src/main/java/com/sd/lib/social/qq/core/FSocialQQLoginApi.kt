@@ -10,13 +10,11 @@ import com.tencent.tauth.IUiListener
 import com.tencent.tauth.Tencent
 import com.tencent.tauth.UiError
 import org.json.JSONObject
-import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * 登录
  */
 object FSocialQQLoginApi {
-    private val _isLogin = AtomicBoolean(false)
     private var _loginCallback: LoginCallback? = null
 
     /**
@@ -50,16 +48,14 @@ object FSocialQQLoginApi {
     }
 
     private fun loginInternal(tencent: Tencent, activity: Activity, callback: LoginCallback) {
-        if (_isLogin.compareAndSet(false, true)) {
-            _loginCallback = callback
+        _loginCallback = callback
 
-            val map = mutableMapOf<String, Any>()
-            if (activity.requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
-                map[Constants.KEY_RESTORE_LANDSCAPE] = true
-            }
-            map[Constants.KEY_SCOPE] = "all"
-            tencent.login(activity, _listener, map)
+        val map = mutableMapOf<String, Any>()
+        if (activity.requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+            map[Constants.KEY_RESTORE_LANDSCAPE] = true
         }
+        map[Constants.KEY_SCOPE] = "all"
+        tencent.login(activity, _listener, map)
     }
 
     private fun processResponse(response: Any?) {
@@ -135,7 +131,6 @@ object FSocialQQLoginApi {
 
     private fun resetState() {
         _loginCallback = null
-        _isLogin.set(false)
     }
 
     interface LoginCallback {
