@@ -1,4 +1,3 @@
-<!DOCTYPE resources [<!ENTITY test "test">]>
 <resources>
     <string name="app_name">social-qq</string>
 </resources>
