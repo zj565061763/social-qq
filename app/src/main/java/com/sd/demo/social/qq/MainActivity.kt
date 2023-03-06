@@ -1,4 +1,4 @@
-package com.sd.demo.social.qq.activity
+package com.sd.demo.social.qq
 
 import android.content.Intent
 import android.os.Bundle
