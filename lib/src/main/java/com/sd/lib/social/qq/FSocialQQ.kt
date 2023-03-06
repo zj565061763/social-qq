@@ -2,6 +2,9 @@ package com.sd.lib.social.qq
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
+import com.sd.lib.social.qq.core.FSocialQQLoginApi
+import com.sd.lib.social.qq.core.FSocialQQShareApi
 import com.tencent.tauth.Tencent
 
 object FSocialQQ {
@@ -46,6 +49,15 @@ object FSocialQQ {
             require(appId.isNotEmpty()) { "appId is empty" }
             _appId = appId
         }
+    }
+
+    /**
+     * Activity结果回调
+     */
+    @JvmStatic
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        FSocialQQLoginApi.onActivityResult(requestCode, resultCode, data)
+        FSocialQQShareApi.onActivityResult(requestCode, resultCode, data)
     }
 
     /**

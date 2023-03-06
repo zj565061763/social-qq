@@ -30,8 +30,7 @@ object FSocialQQLoginApi {
     /**
      * Activity结果回调
      */
-    @JvmStatic
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    internal fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Constants.REQUEST_LOGIN) {
             Tencent.onActivityResultData(requestCode, resultCode, data, _listener)
         }
