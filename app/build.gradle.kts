@@ -54,6 +54,7 @@ android {
             manifestPlaceholders.apply {
                 put("lib_social_qq_app_id", "101830139")
             }
+            dimension = "default"
         }
     }
 }
